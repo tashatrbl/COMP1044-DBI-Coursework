@@ -19,7 +19,7 @@
         {
 
             print"<script> alert('Username or password is incorrect! Please enter again.');
-                    window.location='mainlogin.php'</script>";
+            window.location='mainlogin.php'</script>";
 
     }
     }
