@@ -1,0 +1,366 @@
+@import url("https://fonts.googleapis.com/css?family=IBM+Plex+Sans+Hebrew:100,200,300,400,500,600,700");
+
+/* general CSS */
+body {
+  font-family: "IBM Plex Sans Hebrew";
+  margin: 0;
+  background-color: white;
+}
+
+#logo {
+  position: fixed;
+  width: 181px;
+  height: 55px;
+  padding: 8px 0 0 55px;
+}
+
+#settings__stroke {
+  width: 166px;
+  height: 35px;
+  border: 2px solid #ffffff;
+  border-radius: 30px;
+  float: right;
+  margin-top: 15px;
+  margin-right: 20px;
+}
+
+#settings__fill {
+  width: 166px;
+  height: 35px;
+  border-radius: 30px;
+  background-color: #7db2e2;
+}
+
+#settings__fill:hover {
+  background-color: #63a0d9;
+  transition: background-color 0.2s ease-in;
+}
+
+#Admin {
+  font-family: "IBM Plex Sans Hebrew";
+  color: #ffffff;
+  font-weight: bold;
+  float: right;
+  margin-top: 6px;
+  margin-right: 50px;
+}
+
+#user-icon {
+  margin-top: 4px;
+  margin-left: 10px;
+  filter: invert(100%);
+  height: 25px;
+}
+
+.top-navbar {
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  height: 80px;
+  background-color: #7db2e2;
+  top: 0%;
+  border-right-width: 0px;
+  border-top-width: 0px;
+  border-left-width: 0px;
+  border-bottom-width: 5px;
+  border-style: solid;
+  border-color: #7db2e2;
+}
+
+#sidebar-icons {
+  filter: invert(100%);
+  width: 33px;
+  height: 33px;
+  position: relative;
+  padding: 1px 0px 0px 10px;
+}
+
+/* drawer menu CSS */
+
+#menu__toggle {
+  opacity: 0;
+}
+
+#menu__toggle:checked + .menu__btn > span {
+  transform: rotate(45deg);
+}
+
+#menu__toggle:checked + .menu__btn > span::before {
+  top: 0;
+  transform: rotate(0deg);
+}
+
+#menu__toggle:checked + .menu__btn > span::after {
+  top: 0;
+  transform: rotate(90deg);
+}
+
+#menu__toggle:checked + .menu__btn > span::before,
+#menu__toggle:checked + .menu__btn > span::after {
+  top: 0;
+}
+
+#menu__toggle:checked ~ .menu__box {
+  left: 0 !important;
+}
+
+.menu__btn {
+  position: fixed;
+  top: 35px;
+  left: 20px;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.menu__btn > span,
+.menu__btn > span::before,
+.menu__btn > span::after {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: #ffffff;
+  transition-duration: 0.25s;
+}
+
+.menu__btn > span::before {
+  content: "";
+  top: -8px;
+}
+
+.menu__btn > span::after {
+  content: "";
+  top: 8px;
+}
+
+.menu__box {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 300px;
+  height: 100%;
+  margin: 0;
+  padding: 80px 0;
+  list-style: none;
+  background-color: #7db2e2;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+  transition-duration: 0.5s;
+}
+
+#menu-text {
+  color: #ffffff;
+  padding-left: 10px;
+  padding-top: 5px;
+}
+
+.menu__item {
+  display: flex;
+  padding: 10px 0px 10px 0px;
+  color: #333;
+  font-size: 20px;
+  font-weight: 600;
+  transition-duration: 0.5s;
+}
+
+.menu__item:hover {
+  background-color: #62a0d9;
+}
+
+/* settings CSS */
+
+#userDetails {
+  margin-top: 7px;
+  margin-left: 8px;
+  margin-bottom: 8px;
+  width: 315px;
+  height: 85px;
+  background-color: #d9d9d9;
+  border-radius: 15px;
+}
+
+#settBtn {
+  background-color: #d9d9d9;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+#settDropdown {
+  display: none;
+  border-radius: 15px;
+  margin-top: 10px;
+  width: 332px;
+  height: 232px;
+  float: right;
+  background-color: #f5f5f5;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+#settDropdown a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+#settDropdown a:hover {
+  background-color: #c6c6c6;
+}
+
+#last:hover {
+  background-color: #c6c6c6;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+.show {
+  display: block;
+}
+
+/* Form CSS */
+.add-Form {
+  float: left;
+  position: absolute;
+  margin-left: 55px;
+  margin-top: 70px;
+}
+
+h1 {
+  font-size: 35px;
+  font-weight: 700;
+  color: black;
+}
+
+h3 {
+  position: relative;
+  font-size: 25px;
+  font-weight: 600;
+  color: black;
+}
+
+.custSection {
+  padding-top: 10px;
+  font-weight: 500;
+}
+
+input[type="text"] {
+  width: 150px;
+  height: 30px;
+  border-style: hidden;
+  border-radius: 5px;
+  border-width: 1px;
+  border-color: #a6a6a6;
+  background-color: #efefef;
+  margin: 10px 100px 20px 5px;
+  padding-left: 7px;
+}
+
+input[type="tel"] {
+  width: 180px;
+  height: 30px;
+  border-style: hidden;
+  border-radius: 5px;
+  border-width: 1px;
+  background-color: #efefef;
+  margin: 10px 0 20px 5px;
+  padding-left: 7px;
+}
+
+input:focus {
+  outline: none !important;
+}
+
+.carSection {
+  padding-top: 10px;
+  padding-bottom: 100px;
+}
+
+#selector {
+  position: relative;
+}
+
+select {
+  margin-left: 5px;
+  width: 150px;
+  height: 30px;
+  background-color: #efefef;
+  border-style: hidden;
+  border-radius: 5px;
+  border-width: 1px;
+  background-color: #efefef;
+  margin: 10px 0 20px 5px;
+  padding-left: 7px;
+  appearance: none;
+}
+
+select:focus {
+  outline: none !important;
+}
+
+/* Car Select CSS */
+
+.luxCarMenu {
+  height: 700px;
+  width: 1030px;
+  background-color: #efefef;
+  border-radius: 15px;
+  margin-top: 10px;
+  padding: 20px 30px 20px 30px;
+}
+
+.modelBoxes {
+  display: inline-block;
+  margin: 10px 10px 10px 10px;
+  height: 320px;
+  width: 320px;
+  border-radius: 15px;
+  background-color: #ffffff;
+  text-align: center;
+  padding-top: 10px;
+}
+
+.radioBtn {
+  position: absolute;
+  width: 150px;
+  height: 33px;
+  border-radius: 15px;
+  border-style: hidden;
+  background-color: #7db2e2;
+  color: white;
+  padding-top: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  z-index: 90;
+}
+
+.radioBtn:hover {
+  background-color: #62a0d9;
+}
+
+/* input[type="radio"] {
+  display: none;
+  position: absolute;
+  width: 100%;
+  appearance: none;
+} */
+
+/* Custom Checkbox
+.luxCarMenu input[type="radio"] {
+  position: absolute;
+  width: 150px;
+  height: 33px;
+  border-radius: 15px;
+  border-style: hidden;
+  background-color: #7DB2E2;
+  color: white;
+  padding-top: 5px;
+  font-weight: 600; 
+}
+
+.luxCarMenu input[type="radio"]:checked {
+  background-color: #528BC0;
+  content: "SELECTED";
+} */
