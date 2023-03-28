@@ -54,14 +54,17 @@
         <h1>Add Reservation</h1>
         <h3>Customer Details</h3>
 
-        <div class="custSection">
-            <label for="Fname" id="label">First Name:</label>
-            <input type="text" placeholder="i.e John" required>
-            <label for="Lname" id="label">Last Name:</label>
-            <input type="text" placeholder="i.e Doe" required><br>
-            <label for="phone" id="label">Phone Number:</label>
-            <input type="tel" placeholder="(1)-233-4439" required><br>
-        </div>
+        <Form action="addcustomerprocess.php" method="POST">
+            <div class="custSection">
+                <label for="Fname" id="label">First Name:</label>
+                <input type="text" name="Firstname" placeholder="i.e John" required>
+                <label for="Lname" id="label">Last Name:</label>
+                <input type="text" name="Lastname" placeholder="i.e Doe" required><br>
+                <label for="phone" id="label">Phone Number:</label>
+                <input type="tel" name="Telnum" placeholder="(1)-233-4439" required><br>
+                <input type="submit" value="Submit">
+            </div>
+        </form>
 
         <!-- div for ripple effect to reveal car information AFTER customer details are FILLED -->
         <div class="carSection">
