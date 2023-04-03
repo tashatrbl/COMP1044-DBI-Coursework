@@ -6,9 +6,14 @@ $Lastname=$_POST['Lastname'];
 $Telephone_No=$_POST['Telnum'];
 
 $Customername = $Firstname . ' ' . $Lastname;
-$Random1 = rand(10, 99);
-$Random2 = rand(100, 999);
-$Customerid = strtolower(substr($Firstname, 0, 3)) . $Random1 . $Random2;
+
+// Generate a unique customer_id
+do {
+    $Random1 = rand(10, 99);
+    $Random2 = rand(100, 999);
+    $Customerid = strtolower(substr($Firstname, 0, 3)) . $Random1 . $Random2;
+    $checkQuery = mysqli_query($conn, "SELECT customer_id FROM customer WHERE customer_id = '$Customerid'");
+} while(mysqli_num_rows($checkQuery) > 0);
 
 $mysqlInsert = mysqli_query($conn, "INSERT INTO customer (customer_id, customer_name, contact_number) 
         VALUES ('$Customerid', '$Customername', '$Telephone_No')");
