@@ -54,7 +54,7 @@ body {
 
 .top-navbar {
   position: fixed;
-  z-index: 1;
+  z-index: 3;
   width: 100%;
   height: 80px;
   background-color: #7db2e2;
@@ -111,7 +111,7 @@ body {
   width: 26px;
   height: 26px;
   cursor: pointer;
-  z-index: 1;
+  z-index: 3;
 }
 
 .menu__btn > span,
@@ -148,6 +148,7 @@ body {
   background-color: #7db2e2;
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
   transition-duration: 0.5s;
+  z-index: 2;
 }
 
 #menu-text {
@@ -196,7 +197,7 @@ body {
   float: right;
   background-color: #f5f5f5;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
+  z-index: 2;
 }
 
 #settDropdown a {
@@ -226,6 +227,7 @@ body {
   position: absolute;
   margin-left: 55px;
   margin-top: 70px;
+  z-index: 1;
 }
 
 h1 {
@@ -273,7 +275,7 @@ input:focus {
   outline: none !important;
 }
 
-.carSection {
+#carSection {
   padding-top: 10px;
   padding-bottom: 100px;
 }
@@ -282,7 +284,9 @@ input:focus {
   position: relative;
 }
 
-select {
+select,
+input[type="date"] {
+  font-family: "IBM Plex Sans Hebrew";
   margin-left: 5px;
   width: 150px;
   height: 30px;
@@ -291,23 +295,54 @@ select {
   border-radius: 5px;
   border-width: 1px;
   background-color: #efefef;
-  margin: 10px 0 20px 5px;
+  margin: 10px 10px 20px 5px;
   padding-left: 7px;
+  padding-right: 7px;
   appearance: none;
+}
+
+input[type="date"] {
+  margin-bottom: 30px;
 }
 
 select:focus {
   outline: none !important;
 }
 
+#submit,
+#next {
+  width: 200px;
+  height: 40px;
+  border-radius: 15px;
+  border-style: hidden;
+  background-color: #7db2e2;
+  color: white;
+  padding-top: 2px;
+  font-weight: 300;
+  font-size: medium;
+  cursor: pointer;
+}
+
+#next {
+  width: 100px;
+  height: 40px;
+}
+
+#submit:hover,
+#next:hover {
+  background-color: #62a0d9;
+}
+
 /* Car Select CSS */
 
-.luxCarMenu {
+.luxCarMenu, .sportsCarMenu, .classCarMenu {
+  display:none;
   height: 700px;
   width: 1030px;
   background-color: #efefef;
   border-radius: 15px;
   margin-top: 10px;
+  margin-bottom: 20px;
   padding: 20px 30px 20px 30px;
 }
 
@@ -322,45 +357,47 @@ select:focus {
   padding-top: 10px;
 }
 
+#carImg {
+  position: relative;
+  height: 190px;
+  width: 300px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
 .radioBtn {
-  position: absolute;
-  width: 150px;
-  height: 33px;
-  border-radius: 15px;
-  border-style: hidden;
-  background-color: #7db2e2;
-  color: white;
-  padding-top: 5px;
-  font-weight: 600;
-  cursor: pointer;
-  z-index: 90;
+  margin: 10px;
 }
 
-.radioBtn:hover {
+.radioBtn input[type="radio"] {
+  opacity: 0;
+  position: fixed;
+  width: 0;
+}
+
+.radioBtn label {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 2px solid #444;
+    border-radius: 15px;
+    border-style: hidden;
+    background-color: #7db2e2;
+    color: white;
+    font-weight: 300;
+    font-size: medium;
+    z-index: 90;
+}
+
+.radioBtn label:hover {
   background-color: #62a0d9;
+  cursor: pointer;
 }
 
-/* input[type="radio"] {
-  display: none;
-  position: absolute;
-  width: 100%;
-  appearance: none;
-} */
-
-/* Custom Checkbox
-.luxCarMenu input[type="radio"] {
-  position: absolute;
-  width: 150px;
-  height: 33px;
-  border-radius: 15px;
-  border-style: hidden;
-  background-color: #7DB2E2;
-  color: white;
-  padding-top: 5px;
-  font-weight: 600; 
+.radioBtn input[type="radio"]:focus + label {
+    border: #62a0d9;
 }
 
-.luxCarMenu input[type="radio"]:checked {
-  background-color: #528BC0;
-  content: "SELECTED";
-} */
+.radioBtn input[type="radio"]:checked + label {
+    background-color: #528BC0;
+    border-color: #62a0d9;
+}
