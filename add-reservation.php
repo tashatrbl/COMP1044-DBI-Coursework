@@ -53,83 +53,151 @@
     <div class="add-Form">
         <h1>Add Reservation</h1>
         <h3>Customer Details</h3>
-
-        <Form action="addcustomerprocess.php" method="POST">
+        <form action="addresvprocess.php" method="post">
             <div class="custSection">
-                <label for="Fname" id="label">First Name:</label>
-                <input type="text" name="Firstname" placeholder="i.e John" required>
-                <label for="Lname" id="label">Last Name:</label>
-                <input type="text" name="Lastname" placeholder="i.e Doe" required><br>
-                <label for="phone" id="label">Phone Number:</label>
-                <input type="tel" name="Telnum" placeholder="(1)-233-4439" required><br>
-                <input type="submit" value="Submit">
+                <label>First Name:</label>
+                <input type="text" placeholder="i.e John" name="Firstname" required>
+                <label>Last Name:</label>
+                <input type="text" placeholder="i.e Doe" name="Lastname" required><br>
+                <label>Phone Number:</label>
+                <input type="text" placeholder="i.e 60123456789" name="Telnum" required>
+                <br>
+            </div>
+
+            <!-- <button id="next" name="next" type="button" onclick="revealDiv()"> PROCEED </button> -->
+
+            <!-- div for ripple effect to reveal car information AFTER customer details are FILLED -->
+            <div id="carSection">
+                <h3>Car Details</h3>
+                <label for="carType">Select Car Type:</label>
+                <div id="selector">
+                    <select id="Cartype" onchange="revealCarModel()">
+                        <option disabled selected value></option>
+                        <option value="luxCar">Luxurious Car</option>
+                        <option value="sportsCar">Sports Car</option>
+                        <option value="classCar">Classics Car</option>
+                    </select>
+                </div> <br>
+
+                <!-- Horizontal Scroll Menus-->
+                <!-- Note: These should only appear depending on car type selections-->
+                <label>Select Car Model:</label>
+                <div class="luxCarMenu" for="luxCar" style='display:none'>
+                    <div class="modelBoxes">
+                        <p>Rolls Royce Phantom</p>
+                        <img id="carImg" src="assets/Rolls Royce Phantom.jpg">
+                        <div class="radioBtn">
+                            <input type="radio" id="RRP" name="car_id" value="C01" onclick="setSelected('RRP', 'RRPLabel')">
+                            <label for="RRP" id="RRPLabel"> SELECT</label>
+                        </div>
+                    </div>
+
+                    <div class="modelBoxes">
+                        <p>Bentley Continental Flying Spur</p>
+                        <img id="carImg" src="assets/Bentley Flying Spur.jpg">
+                        <div class="radioBtn">
+                            <input type="radio" id="BCFS" name="car_id" value="C02" onclick="setSelected('BCFS', 'BCFSLabel')">
+                            <label for="BCFS" id="BCFSLabel"> SELECT</label>
+                        </div>
+                    </div>
+
+                    <div class="modelBoxes">
+                        <p>Mercedes Benz CLS 350</p>
+                        <img id="carImg" src="assets/Mercedes Benz CLS 350.jpg">
+                        <div class="radioBtn">
+                            <input type="radio" id="MBC" name="car_id" value="C03" onclick="setSelected('MBC', 'MBCLabel')">
+                            <label for="MBC" id="MBCLabel"> SELECT</label>
+                        </div>
+                    </div>
+
+                    <div class="modelBoxes">
+                        <p>Jaguar S Type</p>
+                        <img id="carImg" src="assets/Jaguar S Type.jpg">
+                        <div class="radioBtn">
+                            <input type="radio" id="JST" name="car_id" value="C04" onclick="setSelected('JST', 'JSTLabel')">
+                            <label for="JST" id="JSTLabel"> SELECT</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sportsCarMenu" for="sportsCar" style='display:none'>
+                    <div class="modelBoxes">
+                        <p>Ferrari F430 Scuderia</p>
+                        <img id="carImg" src="assets/Ferrari F430 Scuderia.jpg">
+                        <div class="radioBtn">
+                            <input type="radio" id="FFS" name="car_id" value="C05" onclick="setSelected('FFS', 'FFSLabel')">
+                            <label for="FFS" id="FFSLabel"> SELECT</label>
+                        </div>
+                    </div>
+
+                    <div class="modelBoxes">
+                        <p>Lamborghini Murcielago LP640</p>
+                        <img id="carImg" src="assets/Lamborghini Murcielago LP640.jpg">
+                        <div class="radioBtn">
+                            <input type="radio" id="LM" name="car_id" value="C06" onclick="setSelected('LM', 'LMLabel')">
+                            <label for="LM" id="LMLabel"> SELECT</label>
+                        </div>
+                    </div>
+
+                    <div class="modelBoxes">
+                        <p>Porsche Boxster</p>
+                        <img id="carImg" src="assets/Porsche Boxster.jpg">
+                        <div class="radioBtn">
+                            <input type="radio" id="PB" name="car_id" value="C07" onclick="setSelected('PB', 'PBLabel')">
+                            <label for="PB" id="PBLabel"> SELECT</label>
+                        </div>
+                    </div>
+
+                    <div class="modelBoxes">
+                        <p>Lexus SC430</p>
+                        <img id="carImg" src="assets/Lexus SC430.jpg">
+                        <div class="radioBtn">
+                            <input type="radio" id="LEX" name="car_id" value="C08" onclick="setSelected('LEX', 'LEXLabel')">
+                            <label for="LEX" id="LEXLabel"> SELECT</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="classCarMenu" for="classCar" style='display:none'>
+                    <div class="modelBoxes">
+                        <p>Jaguar MK 2</p>
+                        <img id="carImg" src="assets/Jaguar MK 2.jpg">
+                        <div class="radioBtn">
+                            <input type="radio" id="JMK" name="car_id" value="C09" onclick="setSelected('JMK', 'JMKLabel')">
+                            <label for="JMK" id="JMKLabel"> SELECT</label>
+                        </div>
+                    </div>
+
+                    <div class="modelBoxes">
+                        <p>Rolls Royce Silver Spirit Limousine</p>
+                        <img id="carImg" src="assets/Rolls Royce Silver Spirit Limousine.jpg">
+                        <div class="radioBtn">
+                            <input type="radio" id="RRS" name="car_id" value="C10" onclick="setSelected('RRS', 'RRSLabel')">
+                            <label for="RRS" id="RRSLabel"> SELECT</label>
+                        </div>
+                    </div>
+
+                    <div class="modelBoxes">
+                        <p>MG TD</p>
+                        <img id="carImg" src="assets/MG TD.jpg">
+                        <div class="radioBtn">
+                            <input type="radio" id="MGTD" name="car_id" value="C11" onclick="setSelected('MGTD', 'MGTDLabel')">
+                            <label for="MGTD" id="MGTDLabel"> SELECT</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rentalDates">
+                    <label for="start">Rental Start Date:</label>
+                    <input type="date" id="start" name="Rentalstart" value="2018-07-22" min=today max="2023-12-31">
+                    <label for="start">Rental End Date:</label>
+                    <input type="date" id="end" name="Rentalend" value="2018-07-23" min=today max="2023-12-31">
+                </div>
+                <button id="submit" type="submit" name="submit">CHECK AVAILABILITY</button>
             </div>
         </form>
-
-        <!-- div for ripple effect to reveal car information AFTER customer details are FILLED -->
-        <div class="carSection">
-            <h3>Car Details</h3>
-            <label for="carType">Select Car Type:</label>
-            <div id="selector">
-                <select>
-                    <option value="1">Luxurious Car</option>
-                    <option value="2">Sports Car</option>
-                    <option value="3">Classics Car</option>
-                </select>
-            </div> <br>
-
-            <!-- Horizontal Scroll Menus-->
-            <!-- Note: These should only appear depending on car type selections-->
-            <label for="carType">Select Car Model:</label>
-            <div class="luxCarMenu">
-                <div class="modelBoxes">
-                    Rolls Royce Phantom
-                    <img src="">
-                    <div class="radioBtn">
-                        <input type="radio" value="RRP" name="luxCarSel">
-                        <label for="radio">SELECT</label><br>
-                    </div>
-                </div>
-
-                <div class="modelBoxes">
-                    Bentley Continental Flying Spur
-                    <img src="">
-                    <div class="radioBtn">
-                        <input type="radio" value="BCFS" name="luxCarSel">
-                        <label for="radio">SELECT</label><br>
-                    </div>
-                </div>
-
-                <div class="modelBoxes">
-                    Mercedes Benz CLS 350
-                    <img src="">
-                    <div class="radioBtn">
-                        <input type="radio" value="MBC" name="luxCarSel">
-                        <label for="radio">SELECT</label><br>
-                    </div>
-                </div>
-
-                <div class="modelBoxes">
-                    Jaguar S Type
-                    <img src="">
-                    <div class="radioBtn">
-                        <input type="radio" value="JST" name="luxCarSel">
-                        <label for="radio">SELECT</label><br>
-                    </div>
-                </div>
-            </div>
-
-            <div class="rentalDates">
-                <label for="start">Rental Start Date:</label>
-                <input type="date" id="start" name="trip-start" value="2018-07-22" min=today max="2018-12-31">
-                <label for="start">Rental End Date:</label>
-                <input type="date" id="start" name="trip-start" value="2018-07-22" min=today max="2018-12-31">
-            </div>
-
-
-            <button id="submit">CHECK AVAILABILITY</button>
-        </div>
     </div>
+
 
     </div>
     </div>
