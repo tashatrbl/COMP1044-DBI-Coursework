@@ -47,8 +47,117 @@
         </ul>
     </div>
 
-    <div id="add-Form">
+    <div id="manage-Form">
+        <h1>Manage Reservation</h1>
+        
+        <?php
+        require('config.php');
 
+        // Define the sort options
+        $sort_options = array(
+            "reservation_id" => "Sort by Reservation ID",
+            "customer_id" => "Sort by Customer ID",
+            "car_id" => "Sort by Car ID",
+            "car_model" => "Sort by Car Model",
+            "rental_date_start" => "Sort by Rental Date Start",
+            "rental_date_end" => "Sort by Rental Date End",
+            "rental_cost" => "Sort by Rental Cost"
+        );
+
+        // Check if a sort option has been selected
+        if (isset($_GET['sort_by'])) {
+            $sort_by = $_GET['sort_by'];
+        } else {
+            $sort_by = "reservation_id";
+        }
+
+        // Define the query based on the sort option
+        if ($sort_by == "reservation_id") {
+            $query = "SELECT reservation_id, customer_id, car_id, car_model, rental_date_start, rental_date_end, rental_cost FROM reservation ORDER BY reservation_id";
+        } else if ($sort_by == "customer_id") {
+            $query = "SELECT reservation_id, customer_id, car_id, car_model, rental_date_start, rental_date_end, rental_cost FROM reservation ORDER BY customer_id";
+        } else if ($sort_by == "car_id") {
+            $query = "SELECT reservation_id, customer_id, car_id, car_model, rental_date_start, rental_date_end, rental_cost FROM reservation ORDER BY car_id";
+        } else if ($sort_by == "car_model") {
+            $query = "SELECT reservation_id, customer_id, car_id, car_model, rental_date_start, rental_date_end, rental_cost FROM reservation ORDER BY car_model";
+        } else if ($sort_by == "rental_date_start") {
+            $query = "SELECT reservation_id, customer_id, car_id, car_model, rental_date_start, rental_date_end, rental_cost FROM reservation ORDER BY rental_date_start";
+        } else if ($sort_by == "rental_date_end") {
+            $query = "SELECT reservation_id, customer_id, car_id, car_model, rental_date_start, rental_date_end, rental_cost FROM reservation ORDER BY rental_date_end";
+        } else if ($sort_by == "rental_cost") {
+            $query = "SELECT reservation_id, customer_id, car_id, car_model, rental_date_start, rental_date_end, rental_cost FROM reservation ORDER BY rental_cost";
+        }
+
+        // Execute the query and display the results
+        $result = mysqli_query($conn, $query);
+        if (mysqli_num_rows($result) > 0) {
+        echo "<table>";
+        echo "<tr><th>Select</th><th>Reservation ID</th><th>Customer ID</th><th>Car ID</th><th>Car Model</th><th>Rental Start Date</th><th>Rental End Date</th><th>Total Rental Cost (RM)</th></tr>";
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "<tr><td><input type='checkbox' name='selected[]' value='".$row["reservation_id"]."'></td><td>" . $row["reservation_id"] . "</td><td>" . $row["customer_id"] . "</td><td>" . $row["car_id"] . "</td><td>" . $row["car_model"] . "</td><td>" . $row["rental_date_start"] . "</td><td>" . $row["rental_date_end"] . "</td><td>" . $row["rental_cost"] . "</td></tr>";
+       }
+    }
+        
+        // Display the dropdown menu
+        echo "<form method='get'>";
+        echo "<label for='sort_by'>Sort By:</label>";
+        echo "<select name='sort_by' id='sort_by' onchange='this.form.submit()'>";
+        foreach ($sort_options as $option_value => $option_text) {
+            if ($sort_by == $option_value) {
+                echo "<option value='".$option_value."' selected>".$option_text."</option>";
+            } else {
+                echo "<option value='".$option_value."'>".$option_text."</option>";
+            }
+        }
+        echo "</select>";
+
+        // Display the search form
+        echo "<form method='get'>";
+        echo "<label for='search'>Search Reservation ID:</label>";
+        echo "<input type='text' name='search' id='search'>";
+        echo "<button type='submit'>Search</button>";
+        echo "</form>";
+
+        // Check if a search term has been entered
+        if (isset($_GET['search'])) {
+            $search_term = $_GET['search'];
+        
+            if (!empty($search_term)) {
+                $query = "SELECT * FROM reservation WHERE reservation_id = ?";
+                $stmt = $conn->prepare($query);
+                $stmt->bind_param("s", $search_term);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $data = $result->fetch_all(MYSQLI_ASSOC);
+                
+                if (empty($data)) {
+                    echo "No Results Found For Reservation ID: " . $search_term;
+                }
+
+                // Display the search results
+                if (count($data) > 0) {
+                    echo "<h2>Search Results for Reservation ID: ".$search_term."</h2>";
+                    echo "<table>";
+                    echo "<tr><th>Select</th><th>Reservation ID</th><th>Customer ID</th><th>Car ID</th><th>Car Model</th><th>Rental Start Date</th><th>Rental End Date</th><th>Total Rental Cost (RM)</th></tr>";
+                foreach ($data as $row) {
+                    echo "<tr><td><input type='checkbox' name='selected[]' value='".$row["reservation_id"]."'></td><td>" . $row["reservation_id"] . "</td><td>" . $row["customer_id"] . "</td><td>" . $row["car_id"] . "</td><td>" . $row["car_model"] . "</td><td>" . $row["rental_date_start"] . "</td><td>" . $row["rental_date_end"] . "</td><td>" . $row["rental_cost"] . "</td></tr>";
+                }
+                    echo "</table>";
+                } else {
+                    echo "<h2>No results found for Reservation ID: ".$search_term."</h2>";
+                }
+            }
+        }
+        
+        //Close the database connection
+        mysqli_close($conn);
+        ?>
+    
+        <br>
+        <form action="managepage.php" method="POST">
+                <input type="submit" value="MANAGE">
+        </form>
     </div>
 
 
