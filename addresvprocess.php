@@ -7,19 +7,25 @@
 
     $Customername = $Firstname . ' ' . $Lastname;
 
-    // Generate a unique customer_id
-    do {
-        $Random1 = rand(10, 99);
-        $Random2 = rand(100, 999);
-        $Customerid = strtolower(substr($Firstname, 0, 3)) . $Random1 . $Random2;
-        $checkQuery = mysqli_query($conn, "SELECT customer_id FROM customer WHERE customer_id = '$Customerid'");
-    } while(mysqli_num_rows($checkQuery) > 0);
+    // Check if customer already exists in the database
+    $existingRecord = mysqli_query($conn, "SELECT * FROM customer WHERE customer_name='$Customername' AND contact_number='$Telephone_No'");
 
-    $existingrecord = mysqli_query($conn, "SELECT * FROM customer WHERE customer_id='$Customerid'");
+    if (mysqli_num_rows($existingRecord) > 0) {
+        // Customer already exists, use their existing customer ID
+        $row = mysqli_fetch_assoc($existingRecord);
+        $Customerid = $row['customer_id'];
+    } else {
+        // Generate a unique customer ID
+        do {
+            $Random1 = rand(10, 99);
+            $Random2 = rand(100, 999);
+            $Customerid = strtolower(substr($Firstname, 0, 3)) . $Random1 . $Random2;
+            $checkQuery = mysqli_query($conn, "SELECT customer_id FROM customer WHERE customer_id = '$Customerid'");
+        } while(mysqli_num_rows($checkQuery) > 0);
 
-    if (mysqli_num_rows($existingrecord) == 0) {
+        // Insert new customer record
         $mysqlInsert1 = mysqli_query($conn, "INSERT INTO customer (customer_id, customer_name, contact_number) 
-            VALUES ('$Customerid', '$Customername', '$Telephone_No')");
+                VALUES ('$Customerid', '$Customername', '$Telephone_No')");
     }
 
     $car_id = $_POST['car_id'];
