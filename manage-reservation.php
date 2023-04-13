@@ -95,8 +95,20 @@
         echo "<tr><th>Select</th><th>Reservation ID</th><th>Customer ID</th><th>Car ID</th><th>Car Model</th><th>Rental Start Date</th><th>Rental End Date</th><th>Total Rental Cost (RM)</th></tr>";
 
         while ($row = mysqli_fetch_assoc($result)) {
-            echo "<tr><td><input type='checkbox' name='selected[]' value='".$row["reservation_id"]."'></td><td>" . $row["reservation_id"] . "</td><td>" . $row["customer_id"] . "</td><td>" . $row["car_id"] . "</td><td>" . $row["car_model"] . "</td><td>" . $row["rental_date_start"] . "</td><td>" . $row["rental_date_end"] . "</td><td>" . $row["rental_cost"] . "</td></tr>";
-       }
+            echo "<tr>
+                    <td>
+                    <input type='radio' name='selected[]' value='".$row["reservation_id"]."' 
+                    data-reservationid='".$row["reservation_id"]."'
+                    </td>
+                    <td>" . $row["reservation_id"] . "</td>
+                    <td>" . $row["customer_id"] . "</td>
+                    <td>" . $row["car_id"] . "</td>
+                    <td>" . $row["car_model"] . "</td>
+                    <td>" . $row["rental_date_start"] . "</td>
+                    <td>" . $row["rental_date_end"] . "</td>
+                    <td>" . $row["rental_cost"] . "</td>
+                </tr>";          
+        }
     }
         
         // Display the dropdown menu
@@ -141,25 +153,58 @@
                     echo "<table>";
                     echo "<tr><th>Select</th><th>Reservation ID</th><th>Customer ID</th><th>Car ID</th><th>Car Model</th><th>Rental Start Date</th><th>Rental End Date</th><th>Total Rental Cost (RM)</th></tr>";
                 foreach ($data as $row) {
-                    echo "<tr><td><input type='checkbox' name='selected[]' value='".$row["reservation_id"]."'></td><td>" . $row["reservation_id"] . "</td><td>" . $row["customer_id"] . "</td><td>" . $row["car_id"] . "</td><td>" . $row["car_model"] . "</td><td>" . $row["rental_date_start"] . "</td><td>" . $row["rental_date_end"] . "</td><td>" . $row["rental_cost"] . "</td></tr>";
-                }
-                    echo "</table>";
-                } else {
-                    echo "<h2>No results found for Reservation ID: ".$search_term."</h2>";
-                }
+                echo "<tr>
+                            <td>
+                            <input type='radio' name='selected[]' value='".$row["reservation_id"]."' 
+                            data-reservationid='".$row["reservation_id"]."'
+                            </td>
+                            <td>" . $row["reservation_id"] . "</td>
+                            <td>" . $row["customer_id"] . "</td>
+                            <td>" . $row["car_id"] . "</td>
+                            <td>" . $row["car_model"] . "</td>
+                            <td>" . $row["rental_date_start"] . "</td>
+                            <td>" . $row["rental_date_end"] . "</td>
+                            <td>" . $row["rental_cost"] . "</td>
+                        </tr>";          
+                        }
+                            echo "</table>";
+                        } else {
+                            echo "<h2>No results found for Reservation ID: ".$search_term."</h2>";
+                        }
             }
         }
-        
         //Close the database connection
         mysqli_close($conn);
         ?>
     
+        <script>
+            var selectedReservationId;
+
+            function autofillForm() {
+                var checkboxes = document.getElementsByName("selected[]");
+                for (var i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i].checked) {
+                        selectedReservationId = checkboxes[i].getAttribute("data-reservationid");
+                        break;
+                    }
+                }
+                console.log("Selected Reservation ID: " + selectedReservationId);
+            }
+
+            var checkboxes = document.getElementsByName("selected[]");
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].addEventListener('change', autofillForm);
+            }
+        </script>
+
+
         <br>
         <form action="managepage.php" method="POST">
-                <input type="submit" value="MANAGE">
+            <input type="hidden" name="reservationid" id="reservationid">
+            <button type="submit" onclick="document.getElementById('reservationid').value = selectedReservationId;">Manage</button>
         </form>
-    </div>
 
+    </div>
 
     <div id="settings">
         <input id="settings__toggle" type="checkbox" />
