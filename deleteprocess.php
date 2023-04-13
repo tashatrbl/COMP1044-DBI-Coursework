@@ -1,12 +1,11 @@
 <?php
 require('config.php');
 
-$Reservation_id=$_POST['ReservationID'];
+$reservationid = $_POST['reservationid'];
 
-$sql = "DELETE FROM reservation WHERE reservation_id ='$Reservation_id'"; 
-$result = $conn->query($sql);
+$sqldelete=mysqli_query($conn,"DELETE FROM reservation WHERE reservation_id ='$reservationid'");
 
-if ($conn->query($sql) === TRUE) 
+if ($sqldelete) 
 {
 	print "<script>alert('This reservation deleted successfully!'); 
 	window.location='delete-reservation2.php'</script>";
