@@ -47,120 +47,77 @@
         </ul>
     </div>
 
-        <script>
-        // Get all the checkboxes
-        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
 
-        // Add an event listener to each checkbox
-        checkboxes.forEach((checkbox) => {
-        checkbox.addEventListener('change', (event) => {
-            if (event.target.checked) {
-            // Get the row data
-            const row = event.target.closest('tr');
-            const reservationId = row.cells[1].textContent;
-            const customerId = row.cells[2].textContent;
-            const carId = row.cells[3].textContent;
-            const carModel = row.cells[4].textContent;
-            const rentalStartDate = row.cells[5].textContent;
-            const rentalEndDate = row.cells[6].textContent;
-            const rentalCost = row.cells[7].textContent;
-            
-            // Populate the form fields with the row data
-            document.getElementById('reservation_id').value = reservationId;
-            document.getElementById('customer_id').value = customerId;
-            document.getElementById('car_id').value = carId;
-            document.getElementById('car_model').value = carModel;
-            document.getElementById('rental_date_start').value = rentalStartDate;
-            document.getElementById('rental_date_end').value = rentalEndDate;
-            document.getElementById('rental_cost').value = rentalCost;
-            }
-        });
-        });
-        </script>
+<?php
+    require('config.php');
+    if(isset($_POST['reservationid'])) {
+        // Use the $reservationid variable to select data from the database
+        $reservationid = $_POST['reservationid'];
+    } else {
+        echo "Reservation ID not found.";
+    }
 
-        <!--
-        <form method='post'>
-        <input type='hidden' name='update_reservation' value='true'>
-        <input type='hidden' name='reservation_id' id='reservation_id'>
-        <label for='customer_id'>Customer ID:</label>
-        <input type='text' name='customer_id' id='customer_id'>
-        <label for='car_id'>Car ID:</label>
-        <input type='text' name='car_id' id='car_id'>
-        <label for='car_model'>Car Model:</label>
-        <input type='text' name='car_model' id='car_model'>
-        <label for='rental_date_start'>Rental Date Start:</label>
-        <input type='text' name='rental_date_start' id='rental_date_start'>
-        <label for='rental_date_end'>Rental Date End:</label>
-        <input type='text' name='rental_date_end' id='rental_date_end'>
-        <label for='rental_cost'>Rental Cost:</label>
-        <input type='text' name='rental_cost' id='rental_cost'>
-        <button type='submit'>Update Reservation</button>
-        </form>
-    -->
+    $query= "SELECT * FROM reservation WHERE reservation_id = '$reservationid'";
+    $result = mysqli_query($conn, $query);
+    $row = mysqli_fetch_array($result);
 
+    $querycustomer = "SELECT * FROM customer WHERE customer_id = '".$row["customer_id"]."'";
+    $resultcustomer = mysqli_query($conn, $querycustomer);
+    $rowcustomer = mysqli_fetch_array($resultcustomer);
+
+    $querycar = "SELECT * FROM car WHERE car_id = '".$row["car_id"]."'";
+    $resultcar = mysqli_query($conn, $querycar);
+    $rowcar = mysqli_fetch_array($resultcar);
+
+    $querycartype = "SELECT * FROM car_type WHERE car_type_id = '".$rowcar["car_type_id"]."'";
+    $resultcartype = mysqli_query($conn, $querycartype);
+    $rowcartype = mysqli_fetch_array($resultcartype);
+   
+    mysqli_close($conn);
+?>
 
         <!-- Form -->
         <div class="add-Form">
                 <h1>Manage Reservation</h1>
                 <form action="manageresvprocess.php" method="post">
                     <label>Reservation ID:</label>
-                    <input type="text" name="reservationid" id="reservationid">
+                    <input type="text" name="reservationid" id="reservationid" value="<?php echo $row['reservation_id']; ?>" readonly>
                 <h3>Customer Details</h3>
                     <div class="custSection">
                         <label>Customer ID:</label>
-                        <input type="text" name="customerid"><br>
-                        <label>First Name:</label>
-                        <input type="text" name="Firstname">
-                        <label>Last Name:</label>
-                        <input type="text" name="Lastname"><br>
+                        <input type="text" name="customerid" id="customerid" value="<?php echo $row['customer_id']; ?>" readonly><br>
+                        <label>Customer Name:</label>
+                        <input type="text" name="customername" value="<?php echo $rowcustomer['customer_name']; ?>" readonly>
                         <label>Phone Number:</label>
-                        <input type="text" name="Telnum">
+                        <input type="text" name="Telnum" value="<?php echo $rowcustomer['contact_number']; ?>" readonly>
                         <br>
                     </div>
 
                 <h3>Car Details</h3>
                     <div id="carSection">
                     <label>Car ID:</label>
-                    <input type="text" name="carid"><br>
+                    <input type="text" name="carid" id="carid" value="<?php echo $row['car_id']; ?>" readonly><br>
 
                     <label for="carType">Car Model Type:</label>
-                    <div id="selector">
-                        <select id="Cartype">
-                            <option disabled selected value></option>
-                            <option value="luxCar">Luxurious Car</option>
-                            <option value="sportsCar">Sports Car</option>
-                            <option value="classCar">Classics Car</option>
-                        </select>
-                    </div> <br>
+                    <input type="text" name="cartype" value="<?php echo $rowcartype['type_name']; ?>" readonly>
+                    <br>
 
                     <label>Car Model:</label>
-                    <div id="selector">
-                        <select id="Carmodel">
-                            <option disabled selected value></option>
-                            <option value="luxCar">Rolls Royce Phantom</option>
-                            <option value="sportsCar">Bentley Continental Flying Spur</option>
-                            <option value="classCar">Mercedes Benz CLS 350</option>
-                            <option value="luxCar">Jaguar S Type</option>
-                            <option value="sportsCar">Ferrari F430 Scuderia</option>
-                            <option value="classCar">Lamborghini Murcielago LP640</option>
-                            <option value="classCar">Porsche Boxster</option>
-                            <option value="luxCar">Lexus SC430</option>
-                            <option value="classCar">Jaguar MK 2</option>
-                            <option value="luxCar">Rolls Royce Silver Spirit Limousine</option>
-                            <option value="classCar">MG TD</option>
-                        </select>
-                    </div> <br>
+                    <label for="carModel">Car Model:</label>
+                    <input type="text" name="carmodel" value="<?php echo $rowcar['car_model']; ?>" readonly>
+                    <br>
 
                     <label>Car Color:</label>
-                    <input type="text" name="carcolor"><br>
+                    <input type="text" name="carcolor" value="<?php echo $rowcar['car_colour']; ?>" readonly><br>
+                    
                     <label>Rental Per Day:</label>
-                    <input type="text" name="rentalperday"><br>
+                    <input type="text" name="rentalperday"  value="<?php echo $rowcar['rental_per_day']; ?>" readonly><br>
 
                     <div class="rentalDates">
                     <label for="start">Rental Start Date:</label>
-                    <input type="date" id="start" name="Rentalstart" value="2018-07-22" min=today max="2023-12-31">
+                    <input type="date" id="start" name="Rentalstart" value="<?php echo $row['rental_date_start']; ?>" min=today max="2023-12-31">
                     <label for="start">Rental End Date:</label>
-                    <input type="date" id="end" name="Rentalend" value="2018-07-23" min=today max="2023-12-31">
+                    <input type="date" id="end" name="Rentalend" value="<?php echo $row['rental_date_end']; ?>" min=today max="2023-12-31">
                 </div>
                 <button id="submit" type="submit" name="update">UPDATE</button>
             </div>
@@ -173,5 +130,4 @@
 
 </body>
 
-</html>         
-  
+</html>      
