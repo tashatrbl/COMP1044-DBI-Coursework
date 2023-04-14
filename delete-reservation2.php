@@ -75,23 +75,140 @@
             $data[] = $row;
         }
 
+         // Display the search form
+         echo "<form method='get'>";
+         echo "<label for='search'>Search Reservation ID:</label>";
+         echo "<input type='text' name='search' id='search'>";
+         echo "<button type='submit'>Search</button>";
+         echo "</form>";
+
         //Display the data in a table
         echo "<table>";
-        echo "<tr><th>Customer ID</th><th>Reservation ID</th><th>Car ID</th><th>Car Model</th><th>Rental Date Start</th><th>Rental Date End</th><th>Rental Cost</th></tr>";
-        foreach ($data as $row) {
-            echo "<tr><td>" . $row["customer_id"] . "</td><td>" . $row["reservation_id"] . "</td><td>" . $row["car_id"] . "</td><td>" . $row["car_model"] . "</td><td>" . $row["rental_date_start"] . "</td><td>" . $row["rental_date_end"] . "</td><td>" . $row["rental_cost"] . "</td></tr>";
+                    echo "<tr><th>Select</th><th>Reservation ID</th><th>Customer ID</th><th>Car ID</th><th>Car Model</th><th>Rental Start Date</th><th>Rental End Date</th><th>Total Rental Cost (RM)</th></tr>";
+                foreach ($data as $row) {
+                echo "<tr>
+                            <td>
+                            <input type='checkbox' name='selected[]' value='".$row["reservation_id"]."' 
+                            data-reservationid='".$row["reservation_id"]."'
+                            </td>
+                            <td>" . $row["reservation_id"] . "</td>
+                            <td>" . $row["customer_id"] . "</td>
+                            <td>" . $row["car_id"] . "</td>
+                            <td>" . $row["car_model"] . "</td>
+                            <td>" . $row["rental_date_start"] . "</td>
+                            <td>" . $row["rental_date_end"] . "</td>
+                            <td>" . $row["rental_cost"] . "</td>
+                        </tr>";          
+                        }
+                            echo "</table>";
+
+        // Check if a search term has been entered
+        if (isset($_GET['search'])) {
+            $search_term = $_GET['search'];
+        
+            if (!empty($search_term)) {
+                $query = "SELECT * FROM reservation WHERE reservation_id = ?";
+                $stmt = $conn->prepare($query);
+                $stmt->bind_param("s", $search_term);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $data = $result->fetch_all(MYSQLI_ASSOC);
+                
+                if (empty($data)) {
+                    echo "No Results Found For Reservation ID: " . $search_term;
+                }
+
+                // Display the search results
+                if (count($data) > 0) {
+                    echo "<h2>Search Results for Reservation ID: ".$search_term."</h2>";
+                    echo "<table>";
+                    echo "<tr><th>Select</th><th>Reservation ID</th><th>Customer ID</th><th>Car ID</th><th>Car Model</th><th>Rental Start Date</th><th>Rental End Date</th><th>Total Rental Cost (RM)</th></tr>";
+                foreach ($data as $row) {
+                echo "<tr>
+                            <td>
+                            <input type='checkbox' name='selected[]' value='".$row["reservation_id"]."' 
+                            data-reservationid='".$row["reservation_id"]."'
+                            </td>
+                            <td>" . $row["reservation_id"] . "</td>
+                            <td>" . $row["customer_id"] . "</td>
+                            <td>" . $row["car_id"] . "</td>
+                            <td>" . $row["car_model"] . "</td>
+                            <td>" . $row["rental_date_start"] . "</td>
+                            <td>" . $row["rental_date_end"] . "</td>
+                            <td>" . $row["rental_cost"] . "</td>
+                        </tr>";          
+                        }
+                            echo "</table>";
+                        } else {
+                            echo "<h2>No results found for Reservation ID: ".$search_term."</h2>";
+                        }
+            }
         }
-        echo "</table>";
 
         //Close the database connection
         mysqli_close($conn);
         ?>
 
+        <script>
+           // Show confirmation message before deleting the record
+            function deleteReservation() {
+                const checkboxes = document.getElementsByName('selected[]');
+                const selectedIds = [];
+                for (let i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i].checked) {
+                        selectedIds.push(checkboxes[i].value);
+                    }
+                }
+                if (selectedIds.length === 0) {
+                    alert('Please select at least one record to delete.');
+                } else {
+                    const confirmation = confirm('Are you sure you want to delete the selected reservation(s)?\nReservation ID(s): ' + selectedIds.join(', ') + '\n');
+                    if (confirmation) {
+                        const reservationIdInputs = document.getElementsByName('reservationid');
+                        for (let i = 0; i < reservationIdInputs.length; i++) {
+                            const reservationIdInput = reservationIdInputs[i];
+                            if (selectedIds.includes(reservationIdInput.value)) {
+                                reservationIdInput.parentNode.parentNode.remove();
+                            }
+                        }
+                        const xhr = new XMLHttpRequest();
+                        xhr.onreadystatechange = function () {
+                            if (this.readyState === 4 && this.status === 200) {
+                                alert('Reservation(s) deleted successfully.');
+                            }
+                        };
+                        xhr.open('POST', 'delete-reservation-action.php', true);
+                        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                        xhr.send('selected=' + selectedIds.join(','));
+                    }
+                }
+            }
+
+        </script>
+
+        <script>
+            var selectedReservationId;
+
+            function autofillForm() {
+                var checkboxes = document.getElementsByName("selected[]");
+                for (var i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i].checked) {
+                        selectedReservationId = checkboxes[i].getAttribute("data-reservationid");
+                        break;
+                    }
+                }
+            }
+
+            var checkboxes = document.getElementsByName("selected[]");
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].addEventListener('change', autofillForm);
+            }
+        </script>
+
         <form action="deleteprocess.php" method="POST">
-            <div class="custSection">
-                <label for="Fname" id="label">Please enter the Reservation ID to be deleted:</label><br>
-                <input type="text" name="ReservationID"><br>
-                <input type="submit" value="Delete">
-            </div>
+            <input type="hidden" name="reservationid" id="reservationid">
+            <button type="submit" onclick="deleteReservation(); document.getElementById('reservationid').value = selectedReservationId;">Delete</button>
         </form>
 
+
+    </div>
