@@ -1,31 +1,46 @@
 <html>
+
+<?php
+session_start();
+
+$username = $_SESSION['username'];
+$actual_name = $_SESSION['actual_name'];
+
+if ($_SESSION['logout'] == true) {
+    print "<script>
+        window.location='mainlogin.php'</script>";
+}
+
+?>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans+Hebrew">
 <link rel="stylesheet" href="style.css">
 <script src="script.js" type="text/javascript"></script>
 
-<body>
-    <div id="top-navbar">
+<body onload=selectRow()>
+    <!-- Navigation Bar -->
+    <div class="top-navbar">
         <img id="logo" src="assets/DriveNow.png"></img>
         <div id="settings__stroke">
             <div id="settings__fill" onclick="settBtnTrigger()">
                 <img id="user-icon" src="assets/user-filled.svg"></img>
-                <span id="Admin">Admin</span>
+                <?php echo "<span id='Admin'>$actual_name</span>"; ?>
+                <span id="Admin"></span>
             </div>
             <div id="settDropdown">
                 <div id="userDetails"></div>
-                <div id="settBtn" class=>
+                <div id="settBtn">
                     <a href="#">Account Details</a>
-                    <a href="#">Dark Mode</a>
-                    <a href="#">Log Out</a>
+                    <a href="mainlogin.php" id="last">Log Out</a>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Drawer Menu -->
     <div class="hamburger-menu">
-        <input id="menu__toggle" type="checkbox" />
+        <input id="menu__toggle" type="checkbox" onchange=dimBG()>
         <label class="menu__btn" for="menu__toggle">
-            <span ></span>
+            <span></span>
         </label>
         <ul class="menu__box">
             <li><a class="menu__item" onclick="interfere('dashboard.php')" class="dashboard-opt">
@@ -47,15 +62,126 @@
         </ul>
     </div>
 
-    <div id="add-Form">
+    <div id="bgOverlay"></div>
+
+    <!-- Form -->
+    <div class="del-Form">
+
+        <div class="directory-path">
+            <img src="assets/home-icon.png" id="home-icon">
+            <span id="directory-text" onclick="interfere('dashboard.php')" style="cursor:pointer;">Dashboard</span>
+            <span id="directory-text"> > </span>
+            <span id="directory-text"> Delete Reservation </span>
+        </div>
+
+        <h1>Delete Reservation</h1>
+        <?php
+        require('config.php');
+
+        $query = "SELECT *, actual_name FROM reservation, staff WHERE reservation.username = staff.username";
+        $result = mysqli_query($conn, $query);
+
+        //Retrieve the data
+        $data = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            $data[] = $row;
+        }
+
+        // things to complete:
+        // alert box
+
+        // Display the search form
+        echo "<form method='get'>";
+        echo "<label for='Fname' id='label'>Search Reservation ID:</label>";
+        echo "<input type='text' name='search'>";
+        echo "<button id = 'searchBtn' type='submit'>SEARCH</button>";
+        echo "</form>";
+        //Display the data in a table
+        echo "<table class = 'table'>";
+        echo "<tr id= 'first-tr'><th>Select</th><th>Reservation ID</th><th>Customer ID</th><th>Car ID</th><th>Car Model</th><th>Rental Start Date</th><th>Rental End Date</th><th>Total Rental Cost (RM)</th><th>Approved By</th></tr>";
+        foreach ($data as $row) {
+            echo "<tr id = 'row'>
+                            <td >
+                            <input type='checkbox' id = 'deleteCheck' name='selected[]' value='" . $row["reservation_id"] . "' 
+                            data-reservationid='" . $row["reservation_id"] . "'>
+                            </td>
+                            <td>" . $row["reservation_id"] . "</td>
+                            <td>" . $row["customer_id"] . "</td>
+                            <td>" . $row["car_id"] . "</td>
+                            <td>" . $row["car_model"] . "</td>
+                            <td>" . $row["rental_date_start"] . "</td>
+                            <td>" . $row["rental_date_end"] . "</td>
+                            <td>" . $row["rental_cost"] . "</td>
+                            <td>" . $row["actual_name"] . "</td>
+                    </tr>";
+        }
+        echo "</table>";
+
+        // Check if a search term has been entered
+        if (isset($_GET['search'])) {
+            $search_term = $_GET['search'];
+
+            if (!empty($search_term)) {
+                $query = "SELECT *, actual_name FROM reservation, staff WHERE reservation.username = staff.username AND reservation_id = ?";
+                $stmt = $conn->prepare($query);
+                $stmt->bind_param("s", $search_term);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $data = $result->fetch_all(MYSQLI_ASSOC);
+
+                if (empty($data)) {
+                    echo "No Results Found For Reservation ID: " . $search_term;
+                }
+
+                // Display the search results
+                if (count($data) > 0) {
+                    echo "<h2>Search Results for Reservation ID: " . $search_term . "</h2>";
+                    echo "<table class = 'table'>";
+                    echo "<tr id= 'first-tr'><th>Select</th><th>Reservation ID</th><th>Customer ID</th><th>Car ID</th><th>Car Model</th><th>Rental Start Date</th><th>Rental End Date</th><th>Total Rental Cost (RM)</th><th>Approved By</th></tr>";
+                    foreach ($data as $row) {
+                        echo "<tr>
+                            <td>
+                            <input type='checkbox' id = 'deleteCheck' name='selected[]' value='" . $row["reservation_id"] . "' 
+                            data-reservationid='" . $row["reservation_id"] . "'
+                            </td>
+                            <td>" . $row["reservation_id"] . "</td>
+                            <td>" . $row["customer_id"] . "</td>
+                            <td>" . $row["car_id"] . "</td>
+                            <td>" . $row["car_model"] . "</td>
+                            <td>" . $row["rental_date_start"] . "</td>
+                            <td>" . $row["rental_date_end"] . "</td>
+                            <td>" . $row["rental_cost"] . "</td>
+                            <td>" . $row["actual_name"] . "</td>
+                        </tr>";
+                    }
+                    echo "</table>";
+                } else {
+                    echo "<h2>No results found for Reservation ID: " . $search_term . "</h2>";
+                }
+            }
+        }
+
+        //Close the database connection
+        mysqli_close($conn);
+        ?>
+        <br>
+
+        <button id="delete" type="submit" onclick=revealAlertBox()>DELETE</button>
+
+        <div id="alertOverlay"></div>
+
+        <div id="alertBox">
+            <p style="font-size: 20px; font-weight: bold;">The following records will be deleted:</p>
+            <div id="alertBoxContent">
+                <span id="text"></span>
+            </div>
+            <div id="alertBoxButtons">
+                <button id="cancel" type="submit" onclick="closeAlertBox()">CANCEL</button>
+                <input type="hidden" name="reservationid" id="reservationid">
+                <button id="delete" type="submit" onclick="deleteReservation(); document.getElementById('reservationid').value = selectedReservationId;">PROCEED</button>
+            </div>
+
+        </div>
+
 
     </div>
-
-
-    <div id="settings">
-        <input id="settings__toggle" type="checkbox" />
-    </div>
-
-</body>
-
-</html>
