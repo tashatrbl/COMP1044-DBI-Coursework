@@ -107,13 +107,11 @@ if ($_SESSION['logout'] == true) {
                 $rental_date_end = $reservations[$i]['rental_date_end'];
                 $date = date_create($rental_date_start);
 
+                $upcoming = date_format($date, 'F') . "<br>" . date_format($date, 'j') . "<br>" . date_format($date, 'Y');
+                
                 echo "<table id = 'bubble'>";
                 echo "<tr><th id= 'date'>";
-                echo date_format($date, 'F');
-                echo "<br>";
-                echo date_format($date, 'm');
-                echo "<br>";
-                echo date_format($date, 'Y');
+                echo $upcoming;
                 echo "</div></th>";
 
                 echo "<th id = 'car-model'><h3>$car_model</h3></th>";
@@ -123,7 +121,6 @@ if ($_SESSION['logout'] == true) {
                 End Date: $rental_date_end<br></td></tr>";
                 echo "</table>";
             }
-
             ?>
 
         </div>
