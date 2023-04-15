@@ -1,23 +1,34 @@
-<html>
+<?php
+session_start();
+
+$username = $_SESSION['username'];
+$actual_name = $_SESSION['actual_name'];
+
+if ($_SESSION['logout'] == true) {
+    print "<script>
+        window.location='mainlogin.php'</script>";
+}
+
+?>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans+Hebrew">
 <link rel="stylesheet" href="style.css">
 <script src="script.js" type="text/javascript"></script>
 
-<body>
+<body onload>
     <!-- Navigation Bar -->
     <div class="top-navbar">
         <img id="logo" src="assets/DriveNow.png"></img>
         <div id="settings__stroke">
             <div id="settings__fill" onclick="settBtnTrigger()">
                 <img id="user-icon" src="assets/user-filled.svg"></img>
-                <span id="Admin">Admin</span>
+                <?php echo "<span id='Admin'>$actual_name</span>"; ?>
+                <span id="Admin"></span>
             </div>
             <div id="settDropdown">
                 <div id="userDetails"></div>
-                <div id="settBtn" class=>
+                <div id="settBtn">
                     <a href="#">Account Details</a>
-                    <a href="#">Dark Mode</a>
-                    <a href="#">Log Out</a>
+                    <a href="mainlogin.php" id="last">Log Out</a>
                 </div>
             </div>
         </div>
@@ -25,7 +36,7 @@
 
     <!-- Drawer Menu -->
     <div class="hamburger-menu">
-        <input id="menu__toggle" type="checkbox" />
+        <input id="menu__toggle" type="checkbox" onchange=dimBG()>
         <label class="menu__btn" for="menu__toggle">
             <span></span>
         </label>
@@ -49,8 +60,17 @@
         </ul>
     </div>
 
+    <div id="bgOverlay"></div>
+
     <!-- Form -->
     <div class="add-Form">
+        <div class="directory-path">
+            <img src="assets/home-icon.png" id="home-icon">
+            <span id="directory-text" onclick="interfere('dashboard.php')" style="cursor:pointer;">Dashboard</span>
+            <span id="directory-text"> > </span>
+            <span id="directory-text"> Add Reservation </span>
+        </div>
+
         <h1>Add Reservation</h1>
         <h3>Customer Details</h3>
         <form action="addresvprocess.php" method="post">
@@ -187,11 +207,21 @@
                     </div>
                 </div>
 
+
+                <?php
+
+                $month = date('m');
+                $day = date('d');
+                $year = date('Y');
+
+                $today = $year . '-' . $month . '-' . $day;
+
+                ?>
                 <div class="rentalDates">
                     <label for="start">Rental Start Date:</label>
-                    <input type="date" id="start" name="Rentalstart" value="2018-07-22" min=today max="2023-12-31">
+                    <input type="date" id="start" name="Rentalstart" value="<?php echo $today; ?>" min=today max="2023-12-31">
                     <label for="start">Rental End Date:</label>
-                    <input type="date" id="end" name="Rentalend" value="2018-07-23" min=today max="2023-12-31">
+                    <input type="date" id="end" name="Rentalend" value="<?php echo $today; ?>" min=today max="2023-12-31">
                 </div>
                 <button id="submit" type="submit" name="submit">CHECK AVAILABILITY</button>
             </div>
