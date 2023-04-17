@@ -186,17 +186,23 @@
 
         </script>
 
+        <form action="deleteprocess.php" method="POST">
+            <input type="hidden" name="selected[]" id="selected">
+            <button type="submit">Delete</button>
+        </form>
+
         <script>
-            var selectedReservationId;
+            var selectedReservationIds = [];
 
             function autofillForm() {
+                selectedReservationIds = [];
                 var checkboxes = document.getElementsByName("selected[]");
                 for (var i = 0; i < checkboxes.length; i++) {
                     if (checkboxes[i].checked) {
-                        selectedReservationId = checkboxes[i].getAttribute("data-reservationid");
-                        break;
+                        selectedReservationIds.push(checkboxes[i].value);
                     }
                 }
+                document.getElementById('selected').value = selectedReservationIds.join(',');
             }
 
             var checkboxes = document.getElementsByName("selected[]");
@@ -204,11 +210,6 @@
                 checkboxes[i].addEventListener('change', autofillForm);
             }
         </script>
-
-        <form action="deleteprocess.php" method="POST">
-            <input type="hidden" name="reservationid" id="reservationid">
-            <button type="submit" onclick="deleteReservation(); document.getElementById('reservationid').value = selectedReservationId;">Delete</button>
-        </form>
 
 
     </div>
