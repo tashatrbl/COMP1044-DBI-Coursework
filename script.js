@@ -83,55 +83,52 @@ function setSelected(radioId, labelId) {
 var selectedReservationId;
 
 function autofillForm() {
-  var checkboxes = document.getElementsByName("selected[]");
-  for (var i = 0; i < checkboxes.length; i++) {
-    if (checkboxes[i].checked) {
-      selectedReservationId = checkboxes[i].getAttribute("data-reservationid");
-      break;
+    var checkboxes = document.getElementsByName("selected[]");
+    for (var i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked) {
+            selectedReservationId = checkboxes[i].getAttribute("data-reservationid");
+            break;
+        }
     }
-  }
+}
 
-  for (var i = 0; i < checkboxes.length; i++) {
-    checkboxes[i].addEventListener("change", autofillForm);
-  }
+var checkboxes = document.getElementsByName("selected[]");
+for (var i = 0; i < checkboxes.length; i++) {
+    checkboxes[i].addEventListener('change', autofillForm);
 }
 
 // function to delete reservation
 // Show confirmation message before deleting the record
 function deleteReservation() {
-  const checkboxes = document.getElementsByName("selected[]");
+  const checkboxes = document.getElementsByName('selected[]');
   const selectedIds = [];
   for (let i = 0; i < checkboxes.length; i++) {
-    if (checkboxes[i].checked) {
-      selectedIds.push(checkboxes[i].value);
-    }
+      if (checkboxes[i].checked) {
+          selectedIds.push(checkboxes[i].value);
+      }
   }
   if (selectedIds.length === 0) {
-    alert("Please select at least one record to delete.");
+      alert('Please select at least one record to delete.');
   } else {
-    const confirmation = confirm(
-      "Are you sure you want to delete the selected reservation(s)?\nReservation ID(s): " +
-        selectedIds.join(", ") +
-        "\n"
-    );
-    if (confirmation) {
-      const reservationIdInputs = document.getElementsByName("reservationid");
-      for (let i = 0; i < reservationIdInputs.length; i++) {
-        const reservationIdInput = reservationIdInputs[i];
-        if (selectedIds.includes(reservationIdInput.value)) {
-          reservationIdInput.parentNode.parentNode.remove();
-        }
+      const confirmation = confirm('Are you sure you want to delete the selected reservation(s)?\nReservation ID(s): ' + selectedIds.join(', ') + '\n');
+      if (confirmation) {
+          const reservationIdInputs = document.getElementsByName('reservationid');
+          for (let i = 0; i < reservationIdInputs.length; i++) {
+              const reservationIdInput = reservationIdInputs[i];
+              if (selectedIds.includes(reservationIdInput.value)) {
+                  reservationIdInput.parentNode.parentNode.remove();
+              }
+          }
+          const xhr = new XMLHttpRequest();
+          xhr.onreadystatechange = function () {
+              if (this.readyState === 4 && this.status === 200) {
+                  alert('Reservation(s) deleted successfully.');
+              }
+          };
+          xhr.open('POST', 'delete-reservation-action.php', true);
+          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+          xhr.send('selected=' + selectedIds.join(','));
       }
-      const xhr = new XMLHttpRequest();
-      xhr.onreadystatechange = function () {
-        if (this.readyState === 4 && this.status === 200) {
-          alert("Reservation(s) deleted successfully.");
-        }
-      };
-      xhr.open("POST", "delete-reservation-action.php", true);
-      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-      xhr.send("selected=" + selectedIds.join(","));
-    }
   }
 }
 
