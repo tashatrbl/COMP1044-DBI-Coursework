@@ -8,12 +8,12 @@ $sqldelete=mysqli_query($conn,"DELETE FROM reservation WHERE reservation_id ='$r
 if ($sqldelete) 
 {
 	print "<script>alert('This reservation deleted successfully!'); 
-	window.location='delete-reservation2.php'</script>";
+	window.location='delete-reservation.php'</script>";
 }
 else
 {
 	print"<script> alert('The reservation ID is not valid. Please check again.');
-	window.location='delete-reservation2.php'</script>";
+	window.location='delete-reservation.php'</script>";
 
 }
 
