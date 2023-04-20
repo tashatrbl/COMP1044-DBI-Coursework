@@ -26,10 +26,12 @@ if ($_SESSION['logout'] == true) {
                 <span id="Admin"></span>
             </div>
             <div id="settDropdown">
-                <div id="userDetails"></div>
+                <div id="userDetails">
+                    <img id="sett-user" src="assets/user-filled.svg"></img>
+                    <?php echo "<span id='sett-name'>$actual_name</span>"; ?>
+                </div>
                 <div id="settBtn">
-                    <a href="#">Account Details</a>
-                    <a href="mainlogin.php" id="last">Log Out</a>
+                    <a href="mainlogin.php?logout=true" id="last">Log Out</a>
                 </div>
             </div>
         </div>
@@ -134,13 +136,13 @@ if ($_SESSION['logout'] == true) {
         $result = mysqli_query($conn, $query);
         if (mysqli_num_rows($result) > 0) {
             echo "<table class = 'table'>";
-            
+
             echo "<tr id= 'first-tr'><th>Select</th><th>Reservation ID</th><th>Customer ID</th><th>Car ID</th><th>Car Model</th><th>Rental Start Date</th><th>Rental End Date</th><th>Total Rental Cost (RM)</th><th>Approved By</th></tr>";
 
             while ($row = mysqli_fetch_assoc($result)) {
                 echo "<tr>
                     <td>
-                    <input type='radio' name='selected[]' value='" . $row["reservation_id"] . "' 
+                    <input type='radio' id='manageCheck' name='selected[]' value='" . $row["reservation_id"] . "' 
                     data-reservationid='" . $row["reservation_id"] . "'>
                     </td>
                     <td>" . $row["reservation_id"] . "</td>
@@ -180,7 +182,7 @@ if ($_SESSION['logout'] == true) {
                     foreach ($data as $row) {
                         echo "<tr>
                             <td>
-                            <input type='radio'name='selected[]' value='" . $row["reservation_id"] . "' 
+                            <input type='radio' id ='manageCheck' name='selected[]' value='" . $row["reservation_id"] . "' 
                             data-reservationid='" . $row["reservation_id"] . "'>
                             </td>
                             <td>" . $row["reservation_id"] . "</td>

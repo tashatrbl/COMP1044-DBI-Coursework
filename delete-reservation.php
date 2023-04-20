@@ -27,10 +27,12 @@ if ($_SESSION['logout'] == true) {
                 <span id="Admin"></span>
             </div>
             <div id="settDropdown">
-                <div id="userDetails"></div>
+                <div id="userDetails">
+                    <img id="sett-user" src="assets/user-filled.svg"></img>
+                    <?php echo "<span id='sett-name'>$actual_name</span>"; ?>
+                </div>
                 <div id="settBtn">
-                    <a href="#">Account Details</a>
-                    <a href="mainlogin.php" id="last">Log Out</a>
+                    <a href="mainlogin.php?logout=true" id="last">Log Out</a>
                 </div>
             </div>
         </div>
@@ -75,6 +77,7 @@ if ($_SESSION['logout'] == true) {
         </div>
 
         <h1>Delete Reservation</h1>
+
         <?php
         require('config.php');
 
@@ -86,9 +89,6 @@ if ($_SESSION['logout'] == true) {
         while ($row = mysqli_fetch_assoc($result)) {
             $data[] = $row;
         }
-
-        // things to complete:
-        // alert box
 
         // Display the search form
         echo "<form method='get'>";
@@ -168,6 +168,13 @@ if ($_SESSION['logout'] == true) {
 
         <button id="delete" type="submit" onclick=revealAlertBox()>DELETE</button>
 
+        <script>
+            var checkboxes = document.getElementsByName("selected[]");
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].addEventListener('change', autofillForm);
+            }
+        </script>
+
         <div id="alertOverlay"></div>
 
         <div id="alertBox">
@@ -175,13 +182,17 @@ if ($_SESSION['logout'] == true) {
             <div id="alertBoxContent">
                 <span id="text"></span>
             </div>
+
             <div id="alertBoxButtons">
-                <button id="cancel" type="submit" onclick="closeAlertBox()">CANCEL</button>
-                <input type="hidden" name="reservationid" id="reservationid">
-                <button id="delete" type="submit" onclick="deleteReservation(); document.getElementById('reservationid').value = selectedReservationId;">PROCEED</button>
+                <form action="deleteprocess.php" method="POST">
+                    <button id="cancel" type="button" onclick="closeAlertBox()">CANCEL</button>
+                    <input type="hidden" name="reservationid" id="reservationid">
+                    <button id="delete" type="submit" onclick="deleteReservation(); document.getElementById('reservationid').value = selectedReservationId;">PROCEED</button>
+                </form>
             </div>
 
         </div>
 
-
     </div>
+
+</html>

@@ -25,10 +25,12 @@ if ($_SESSION['logout'] == true) {
                 <span id="Admin"></span>
             </div>
             <div id="settDropdown">
-                <div id="userDetails"></div>
+                <div id="userDetails">
+                    <img id="sett-user" src="assets/user-filled.svg"></img>
+                    <?php echo "<span id='sett-name'>$actual_name</span>"; ?>
+                </div>
                 <div id="settBtn">
-                    <a href="#">Account Details</a>
-                    <a href="mainlogin.php" id="last">Log Out</a>
+                    <a href="mainlogin.php?logout=true" id="last">Log Out</a>
                 </div>
             </div>
         </div>
