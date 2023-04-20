@@ -12,6 +12,10 @@ if (isset($_GET['logout'])) {
 
 ?>
 
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans+Hebrew">
+<link rel="stylesheet" href="style.css">
+<script src="script.js" type="text/javascript"></script>
+
 <head>
     <style>
         .login {
@@ -49,7 +53,6 @@ if (isset($_GET['logout'])) {
             border-width: 15px;
             border-radius: 15px;
             padding: 40px 0 0 100px;
-
         }
 
         #input {
@@ -60,7 +63,9 @@ if (isset($_GET['logout'])) {
             border-radius: 10px;
             border-style: hidden;
             background-color: #D9D9D9;
-            margin-bottom: 50px
+            margin-bottom: 50px;
+            padding: 10px;
+            font-size: 15px;
         }
 
         #input:active {
