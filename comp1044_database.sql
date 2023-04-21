@@ -120,7 +120,7 @@ CREATE TABLE `staff` (
 -- Dumping data for table `staff`
 --
 
-INSERT INTO `staff` (`username`, `password`, `actual_name`, `encrypted_pw`) VALUES
+INSERT INTO `staff` (`username`, `password`, `actual_name`, `encrypted_pw`, `roles`) VALUES
 ('efywy2', '20301686', 'Yap Wei Ni', '0LARlup2OqY=', 'Senior Manager'),
 ('hcycb2', '20509430', 'Carmel Natasha Barnabas', '0LAXluJ0MaA=', 'Intern'),
 ('hfymy3', '20409203', 'Merlyn Teow Yi-Lin', '0LAWluJyMqM=','Manager'),
