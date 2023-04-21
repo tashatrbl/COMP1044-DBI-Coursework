@@ -112,7 +112,8 @@ CREATE TABLE `staff` (
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `actual_name` varchar(255) NOT NULL,
-  `encrypted_pw` varchar(255) DEFAULT NULL
+  `encrypted_pw` varchar(255) DEFAULT NULL,
+  `roles` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -120,10 +121,10 @@ CREATE TABLE `staff` (
 --
 
 INSERT INTO `staff` (`username`, `password`, `actual_name`, `encrypted_pw`) VALUES
-('efywy2', '20301686', 'Yap Wei Ni', '0LARlup2OqY='),
-('hcycb2', '20509430', 'Carmel Natasha Barnabas', '0LAXluJ0MaA='),
-('hfymy3', '20409203', 'Merlyn Teow Yi-Lin', '0LAWluJyMqM='),
-('hfyvv2', '20409418', 'Varsagasorraj A/L Vasagarajan', '0LAWluJ0M6g=');
+('efywy2', '20301686', 'Yap Wei Ni', '0LARlup2OqY=', 'Senior Manager'),
+('hcycb2', '20509430', 'Carmel Natasha Barnabas', '0LAXluJ0MaA=', 'Intern'),
+('hfymy3', '20409203', 'Merlyn Teow Yi-Lin', '0LAWluJyMqM=','Manager'),
+('hfyvv2', '20409418', 'Varsagasorraj A/L Vasagarajan', '0LAWluJ0M6g=', 'Reservation Assistant');
 
 --
 -- Indexes for dumped tables
