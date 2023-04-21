@@ -293,7 +293,7 @@ body {
 
 .child {
   float: left;
-  width: 50%;
+  width: 885px;
 }
 
 .upcoming {
@@ -326,9 +326,9 @@ body {
 
 .calendarDiv {
   float: left;
-  position: relative;
+  position: absolute;
   margin-top: 20px;
-  width: 95%;
+  width: 900px;
   height: 700px;
   border-radius: 15px;
   background-color: #f0f0f0;
@@ -744,7 +744,7 @@ input[type="checkbox"] {
   position: absolute;
   top: 70%;
   left: 50%;
-  width: 50%;
+  width: 880px;
   transform: translate(-50%, -50%);
   border-radius: 15px;
   background: white;
