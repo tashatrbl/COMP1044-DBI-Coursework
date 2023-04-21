@@ -3,10 +3,19 @@ session_start();
 
 $username = $_SESSION['username'];
 $actual_name = $_SESSION['actual_name'];
+$role = $_SESSION['roles'];
 
 if ($_SESSION['logout'] == true) {
     print "<script>
         window.location='mainlogin.php'</script>";
+}
+
+/* hardcoding this because the actual name is too long :D */
+if ($actual_name == 'Yap Wei Ni') {
+    $split = explode(' ', $actual_name);
+    $first_name = implode(" ", array_slice($split, -2));
+} else {
+    $first_name = explode(' ', $actual_name)[0];
 }
 
 ?>
@@ -19,15 +28,17 @@ if ($_SESSION['logout'] == true) {
     <div class="top-navbar">
         <img id="logo" src="assets/DriveNow.png"></img>
         <div id="settings__stroke">
+            <img id="user-icon" src="assets/user-filled.svg"></img>
             <div id="settings__fill" onclick="settBtnTrigger()">
-                <img id="user-icon" src="assets/user-filled.svg"></img>
-                <?php echo "<span id='Admin'>$actual_name</span>"; ?>
-                <span id="Admin"></span>
+                <?php echo "<span><a id='Admin'>$first_name</a></span>"; ?>
             </div>
             <div id="settDropdown">
                 <div id="userDetails">
                     <img id="sett-user" src="assets/user-filled.svg"></img>
-                    <?php echo "<span id='sett-name'>$actual_name</span>"; ?>
+                    <?php
+                    echo "<h2 id='sett-name'>$first_name</h2>";
+                    echo "<h3 id='role'>$role</h3>";
+                    ?>
                 </div>
                 <div id="settBtn">
                     <a href='mainlogin.php?logout=true' id='last'>Log Out</a>
@@ -94,7 +105,7 @@ if ($_SESSION['logout'] == true) {
                     <img src="assets/user.png" id="pfp">
                     <span>
                         <h3 id="welcome-text">Welcome,</h3>
-                        <h1 id="welcome-text"><?php echo $actual_name ?>!</h1>
+                        <h1 id="welcome-text"><?php echo $first_name ?>!</h1>
                     </span>
                 </div>
 
