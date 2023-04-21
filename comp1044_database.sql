@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 05, 2023 at 08:02 AM
+-- Generation Time: Apr 20, 2023 at 06:18 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -111,8 +111,19 @@ CREATE TABLE `reservation` (
 CREATE TABLE `staff` (
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `actual_name` varchar(255) NOT NULL
+  `actual_name` varchar(255) NOT NULL,
+  `encrypted_pw` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `staff`
+--
+
+INSERT INTO `staff` (`username`, `password`, `actual_name`, `encrypted_pw`) VALUES
+('efywy2', '20301686', 'Yap Wei Ni', '0LARlup2OqY='),
+('hcycb2', '20509430', 'Carmel Natasha Barnabas', '0LAXluJ0MaA='),
+('hfymy3', '20409203', 'Merlyn Teow Yi-Lin', '0LAWluJyMqM='),
+('hfyvv2', '20409418', 'Varsagasorraj A/L Vasagarajan', '0LAWluJ0M6g=');
 
 --
 -- Indexes for dumped tables
@@ -168,7 +179,7 @@ ALTER TABLE `car_type`
 -- AUTO_INCREMENT for table `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Constraints for dumped tables
