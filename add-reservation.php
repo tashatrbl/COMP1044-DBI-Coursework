@@ -23,7 +23,7 @@ if ($actual_name == 'Yap Wei Ni') {
 <link rel="stylesheet" href="style.css">
 <script src="script.js" type="text/javascript"></script>
 
-<body onload=selectRow()>
+<body>
     <!-- Navigation Bar -->
     <div class="top-navbar">
         <img id="logo" src="assets/DriveNow.png"></img>
