@@ -43,7 +43,7 @@ $rental_per_day_row = mysqli_fetch_assoc($rental_per_day_query);
 $rental_per_day = $rental_per_day_row['rental_per_day'];
 
 $diff = abs(strtotime($rentalenddate) - strtotime($rentalstartdate));
-$days = floor($diff / (60 * 60 * 24));
+$days = floor($diff / (60 * 60 * 24)) + 1;
 $totalfee = $days * $rental_per_day;
 $mysqlcheckdate = "SELECT * FROM reservation WHERE car_id = ? AND 
        ((rental_date_start <= ? AND rental_date_end >= ?) OR 
@@ -64,7 +64,7 @@ if (mysqli_num_rows($result) > 0) {
 $mysqlInsert2 = mysqli_query($conn, "INSERT INTO reservation (customer_id, username, car_id, car_model, rental_date_start, rental_date_end, rental_cost) 
     VALUES ('$Customerid', '$username', '$car_id', '$car_model','$rentalstartdate','$rentalenddate','$totalfee')");
 
-if ($mysqlInsert1 && $mysqlInsert2) {
+if ($mysqlInsert2) {
     print "<script>alert('Created reservation successfully!'); 
         window.location='dashboard.php'</script>";
     exit;
