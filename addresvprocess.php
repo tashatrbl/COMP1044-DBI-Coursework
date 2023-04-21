@@ -42,6 +42,14 @@ $rental_per_day_query = mysqli_query($conn, "SELECT rental_per_day FROM car WHER
 $rental_per_day_row = mysqli_fetch_assoc($rental_per_day_query);
 $rental_per_day = $rental_per_day_row['rental_per_day'];
 
+$currentdate = date("Y-m-d");
+
+if ($rentalstartdate < $currentdate) {
+    echo "<script> alert('Please enter a date after " . $currentdate . ".');
+    window.location='add-reservation.php'</script>";
+    exit();
+}
+
 $diff = abs(strtotime($rentalenddate) - strtotime($rentalstartdate));
 $days = floor($diff / (60 * 60 * 24)) + 1;
 $totalfee = $days * $rental_per_day;
