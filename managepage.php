@@ -39,6 +39,7 @@ if ($actual_name == 'Yap Wei Ni') {
                     echo "<h2 id='sett-name'>$first_name</h2>";
                     echo "<h3 id='role'>$role</h3>";
                     ?>
+                </div>
                 <div id="settBtn">
                     <a href="mainlogin.php?logout=true" id="last">Log Out</a>
                 </div>
