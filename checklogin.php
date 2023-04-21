@@ -12,7 +12,7 @@ if (isset($_POST)) {
     $jsc = "alert('" . $password_encrypted  . "')";
     echo "<script>" . $jsc . "</script>";
 
-    $data = mysqli_query($conn, "SELECT * From staff WHERE username ='$username' and password = '$password_encrypted'");
+    $data = mysqli_query($conn, "SELECT * From staff WHERE username ='$username' and encrypted_pw = '$password_encrypted'");
     $row = mysqli_fetch_assoc($data);
     $actual_name = $row['actual_name'];
 
