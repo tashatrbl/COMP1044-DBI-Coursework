@@ -167,47 +167,48 @@ if ($actual_name == 'Yap Wei Ni') {
                 $ym = date('Y-m');
             }
 
-            $timestamp = strtotime($ym, "-01");
+            $timestamp = strtotime($ym . "-01");
             if ($timestamp === false) {
-                $timestamp = time();
+                $ym = date('Y-m');
+                $timestamp = strtotime($ym . '-01');
             }
 
-            $today = date('Y-m-d', time());
+            $today = date('Y-m-d');
             $month = date('F Y', $timestamp);
 
-            $prev = date('Y-m', mktime(0, 0, 0, date('m', $timestamp) - 1, 1, date('Y', $timestamp)));
-            $next = date('Y-m', mktime(0, 0, 0, date('m', $timestamp) + 1, 1, date('Y', $timestamp)));
+            $prev = date('Y-m', strtotime('-1 month', $timestamp));
+            $next = date('Y-m', strtotime('+1 month', $timestamp));
 
             $numDays = date('t', $timestamp);
 
-            $str = date('w', mktime(0, 0, 0, date('m', $timestamp), 1, date('Y', $timestamp)));
+            $str = date('N', $timestamp);
 
-            $weeks = array();
+            $weeks = [];
             $week = '';
 
-            $week .= str_repeat('<td></td>', $str);
+            $week .= str_repeat('<td></td>', $str - 1);
 
-            for ($day = 1; $day <= $numDays; $day++, $str++) {
+            for ($i = 1; $i <= $numDays; $i++, $str++) {
+                if ($i < 10) {
+                    $day = '0'. $i;
+                } else {
+                    $day = $i;
+                }
+
                 $date  = $ym . '-' . $day;
 
-                // Check if the current day is a reservation day
                 if (in_array($date, $reservation_dates)) {
-                    $class = 'reserved';
+                    $week .= "<td class='reserved'>";
                 } else {
-                    $class = '';
-                }
+                    $week .= "<td>";
+                }            
 
-                if ($today == $date) {
-                    $week .= "<td class='class $class'>" . $day;
-                } else {
-                    $week .= "<td class='$class'>" . $day;
-                }
-                $week .= "</td>";
+                $day = $i;
+                $week .= $day . "</td>";
 
-
-                if ($str % 7 == 6 || $day == $numDays) {
-                    if ($day == $numDays) {
-                        $week .= str_repeat('<td></td>', 6 - ($str % 7));
+                if ($str % 7 == 0 || $day == $numDays) {
+                    if ($day == $numDays && $str % 7 != 0) {
+                        $week .= str_repeat('<td></td>', 7 - ($str % 7));
                     }
 
                     $weeks[] = '<tr>' . $week . '</tr>';
@@ -215,6 +216,7 @@ if ($actual_name == 'Yap Wei Ni') {
                     $week = '';
                 }
             }
+            
             ?>
 
             <div class="child">
@@ -227,13 +229,13 @@ if ($actual_name == 'Yap Wei Ni') {
                                     <td> <a href="?ym=<?php echo $next; ?>" style="color:white;">&gt;</a></td>
                                 </tr>
                                 <tr id="first-row">
-                                    <td>M</td>
-                                    <td>T</td>
-                                    <td>W</td>
-                                    <td>T</td>
-                                    <td>F</td>
-                                    <td>S</td>
-                                    <td>S</td>
+                                    <td>Mon</td>
+                                    <td>Tue</td>
+                                    <td>Wed</td>
+                                    <td>Thurs</td>
+                                    <td>Fri</td>
+                                    <td>Sat</td>
+                                    <td>Sun</td>
                                 </tr>
                                 <?php
                                 foreach ($weeks as $week) {
