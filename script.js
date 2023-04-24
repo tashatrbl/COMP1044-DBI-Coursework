@@ -83,13 +83,14 @@ function setSelected(radioId, labelId) {
 var selectedReservationId;
 
 function autofillForm() {
-    var checkboxes = document.getElementsByName("selected[]");
-    for (var i = 0; i < checkboxes.length; i++) {
-        if (checkboxes[i].checked) {
-            selectedReservationId = checkboxes[i].getAttribute("data-reservationid");
-            break;
-        }
+  var checkboxes = document.getElementsByName("selected[]");
+  var selectedIds = [];
+  for (var i = 0; i < checkboxes.length; i++) {
+    if (checkboxes[i].checked) {
+      selectedIds.push(checkboxes[i].getAttribute("data-reservationid"));
     }
+  }
+  document.getElementById("reservationid").value = selectedIds.join(",");
 }
 
 var checkboxes = document.getElementsByName("selected[]");

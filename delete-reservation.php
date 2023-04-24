@@ -198,7 +198,7 @@ if ($actual_name == 'Yap Wei Ni') {
                 <form action="deleteprocess.php" method="POST">
                     <button id="cancel" type="button" onclick="closeAlertBox()">CANCEL</button>
                     <input type="hidden" name="reservationid" id="reservationid">
-                    <button id="delete" type="submit" onclick="deleteReservation(); document.getElementById('reservationid').value = selectedReservationId;">PROCEED</button>
+                    <button id="delete" type="submit" onclick="deleteReservation(); autofillForm();">PROCEED</button>
                 </form>
             </div>
 

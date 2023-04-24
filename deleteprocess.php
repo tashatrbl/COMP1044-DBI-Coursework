@@ -1,11 +1,22 @@
 <?php
 require('config.php');
 
-$reservationid = $_POST['reservationid'];
+// $reservationid = $_POST['reservationid'];
 
-$sqldelete=mysqli_query($conn,"DELETE FROM reservation WHERE reservation_id ='$reservationid'");
+// $sqldelete=mysqli_query($conn,"DELETE FROM reservation WHERE reservation_id ='$reservationid'");
 
-if ($sqldelete) 
+$selectedIds = explode(',', $_POST['reservationid']);
+
+$success = true;
+
+foreach ($selectedIds as $reservationId) {
+    $sqldelete = "DELETE FROM reservation WHERE reservation_id = '$reservationId'";
+    if (!mysqli_query($conn, $sqldelete)) {
+        $success = false;
+    }
+}
+
+if ($success) 
 {
 	print "<script>alert('This reservation deleted successfully!'); 
 	window.location='delete-reservation.php'</script>";
