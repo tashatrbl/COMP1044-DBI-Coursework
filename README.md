@@ -23,9 +23,10 @@ Additional Requirements:
 
 ### Method of delivery:
 1. Database schema is completed using MySQL, with an Entity-Relational Diagram to help visualise the database.
-2. User Interface will be designed using [Figma](https://www.figma.com/file/hm2OXVgRi6kz95dJPAL9dl/Car-Rental-Website?node-id=0%3A1&t=1DlPxS6zhzILik6w-1)
-3. Website will be composed of HTML, CSS, JS and PHP.
-4. Video explanation of website: <i>N/A</i>.
+2. User Interface will be designed using [Figma](https://www.figma.com/file/hm2OXVgRi6kz95dJPAL9dl/Car-Rental-Website?node-id=0%3A1&t=1DlPxS6zhzILik6w-1).
+3. All source code and versions can be found on [GitHub](https://github.com/tashatrbl/COMP1044-DBI-Coursework).
+4. Website will be composed of HTML, CSS, JS and PHP.
+5. Video explanation of website: [Google Drive Link](https://drive.google.com/file/d/1GV2C_-5Xs6dZ48I0Lt406NfpmSazI13y/view?usp=sharing).
 
 ---
 
